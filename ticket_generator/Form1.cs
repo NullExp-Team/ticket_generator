@@ -21,6 +21,7 @@ namespace ticket_generator
         {
             Algorith tmp = new Algorith();
             tmp.Main();
+            Import.ImportStudents("C:\\Users\\danek\\Documents\\GitHub\\ticket_generator\\ticket_generator");
         }
     }
 }

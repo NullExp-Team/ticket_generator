@@ -70,6 +70,7 @@ class TypeVariables
         this.list = list;
         this.shift = -1;
         rebuildTree();
+
     }
 
     public void rebuildTree()
