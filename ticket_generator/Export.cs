@@ -8,6 +8,7 @@ namespace ticket_generator
 {
     public class Export
     {
+        /*
         public static void ExportVariants(List<Variant> variantList, string path)
         {
             var doc = DocX.Create(path);
@@ -118,5 +119,6 @@ namespace ticket_generator
                 Export.ExportVariants(variantList, dlg.FileName);
             }
         }
+        */
     }
 }

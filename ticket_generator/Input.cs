@@ -10,74 +10,97 @@ namespace ticket_generator
 {
     public static class Import
     {
-
-        public static void ImportStudents(string path)
+        /// <summary>
+        /// Иногда нумерация сбивается и она вписывается в строку. Например "26. Даны несколько.." Эта функция убирает это
+        /// </summary>
+        private static int ClearStartOfParagraphs(DocX document, int i)
+        {
+            char[] numbers = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
+            int startIndex = 0;
+            try
+            {
+                if (numbers.Contains(document.Paragraphs[i].Text[startIndex]))
+                {
+                    startIndex++;
+                    while (numbers.Contains(document.Paragraphs[i].Text[startIndex]))
+                    {
+                        startIndex++;
+                    }
+                    if (document.Paragraphs[i].Text[startIndex] == '.' && !numbers.Contains(document.Paragraphs[i].Text[startIndex + 1]))
+                    {
+                        startIndex++;
+                        if (document.Paragraphs[i].Text[startIndex] == ' ')
+                        {
+                            startIndex++;
+                        }
+                        return startIndex;
+                    }
+                }
+            } catch
+            {
+                return 0;
+            }
+            
+            return 0;
+        }
+        public static List<List<GeneratorsTask>> ImportTasks()
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "Text files (*.doc; *.docx)|*.doc; *.docx";
 
+            string path = "";
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 path = openFileDialog.FileName;
             }
 
-            List<string> students = new List<string>();
-            List<string> newstudents = new List<string>();
             var document = DocX.Load(path);
 
-            StringBuilder fullString = new StringBuilder();
-            for (int i = 0; i < document.Paragraphs.Count; i++)
+            List<List<GeneratorsTask>> answer = new List<List<GeneratorsTask>>();
+            
+            for (int i = 0, listNumber = -1, task = -1, tableNumber = 0; i < document.Paragraphs.Count; i++)
             {
-                fullString.Append(document.Paragraphs[i].Text + '\n');
+                //перед началом списка с теоретическими или практическими вопросами должен идти жирный заголовок
+                if (document.Paragraphs[i].MagicText.Count >= 1 && document.Paragraphs[i].MagicText[0].formatting.Bold == true)
+                {
+                    answer.Add(new List<GeneratorsTask>());
+                    listNumber++;
+                    task = -1;
+                } else
+                {
+                    if ((document.Paragraphs[i].Text.Length == 0 || document.Paragraphs[i].Text[0] == ' ') && document.Paragraphs[i].Pictures.Count == 0 && document.Paragraphs[i].FollowingTables == null)
+                    {
+                        continue;
+                    }
+                    int startIndex = ClearStartOfParagraphs(document, i);
+                    // чтобы определить, что начался новый вопрос, достаточно найти знак ! вначале, после которого следует сложность
+                    if (document.Paragraphs[i].Text.Length > 0 && document.Paragraphs[i].Text[startIndex] == '!')
+                    {
+                        int difficulty = document.Paragraphs[i].Text[startIndex + 1] - 48;
+                        document.Paragraphs[i].RemoveText(0, startIndex+3);
+                        task++;
+                        answer[listNumber].Add(new GeneratorsTask(task, difficulty, new List<Xceed.Document.NET.Paragraph>()));
+                        answer[listNumber][task].text.Add(document.Paragraphs[i]);
+                    } else
+                    {
+                        if (document.Paragraphs[i].ParentContainer == Xceed.Document.NET.ContainerType.Cell)
+                        {
+                            i += document.Tables[tableNumber].Paragraphs.Count()-1;
+                            tableNumber++;
+                        } else
+                        {
+                            answer[listNumber][task].text.Add(document.Paragraphs[i]);
+                        }
+                    }
+                }
             }
-            StringBuilder clearedString = new StringBuilder();
-            char[] chars = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ')', '(', '*', '-', '{', '}', '[', ']', '?', '=', '+', '-', '_', ',', '.' };
-            for (int i = 0; i < fullString.Length; i++)
-            {
-                if (!chars.Contains(fullString[i]))
-                    clearedString.Append(fullString[i]);
-            }
+            
+            //Итого получается список из двух списков заданий. Каждое задание - это полученная сложность из текста
+            //по метке !Х, где  Х 1..5, индекс от 0 и до количества заданий, а также список параграфов.
+            //Так как ворд делали мастера своего дела, то картинки и таблицы принадлежат некому параграфу.
+            //Так что при экпорте достаточно проверить списки Pictures и FollowingTables, чтобы понять,
+            //есть ли здесь картинки или таблицы. Короче, пока что изи выглядит
+            return answer;
         }
-
-    //    public static List<int> GetTaskTypesFromString(string str)
-    //    {
-    //        List<int> result = new List<int>();
-
-    //        char[] chars = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ',', '-', ' ' };
-
-    //        for (int i = 0; i < str.Length; i++)
-    //        {
-    //            if (!chars.Contains(str[i]))
-    //                throw new FormatException("GetTaskTypesFromString " + str);
-    //        }
-
-    //        string clearedString = str.Replace(" ", "");
-    //        string[] splittedString = clearedString.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-
-    //        for (int i = 0; i < splittedString.Length; i++)
-    //        {
-    //            if (splittedString[i].Contains('-'))
-    //            {
-    //                string[] splittedString2 = splittedString[i].Split(new char[] { '-' }, StringSplitOptions.RemoveEmptyEntries);
-    //                if (splittedString2.Length == 2)
-    //                {
-    //                    int from = Convert.ToInt32(splittedString2[0]), to = Convert.ToInt32(splittedString2[1]);
-    //                    for (int j = from; j <= to; j++)
-    //                    {
-    //                        result.Add(j);
-    //                    }
-    //                }
-    //            }
-    //            else
-    //            {
-    //                int type = Convert.ToInt32(splittedString[i]);
-    //                result.Add(type);
-    //            }
-    //        }
-
-    //        result = result.Distinct().ToList();
-    //        result.Sort();
-    //        return result;
-    //    }
-    //}
+    }
 }
