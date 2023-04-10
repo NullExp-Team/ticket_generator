@@ -62,6 +62,13 @@ namespace ticket_generator
                     doc.InsertParagraph(par);
                 }
 
+
+                var replaceOps = new StringReplaceTextOptions();
+                replaceOps.SearchValue = "[[number]]";
+                replaceOps.NewValue = ticket.number.ToString();
+
+                doc.ReplaceText(replaceOps);
+
                 // Разрыв страницы
                 if (i != test.tickets.Count - 1)
                 {
