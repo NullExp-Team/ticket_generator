@@ -1,11 +1,11 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace ticket_generator
 {
-    class Algorith
+    class Algorithm
     {
         class TypeVariablesNode : IComparable<TypeVariablesNode>
         {
@@ -56,29 +56,16 @@ namespace ticket_generator
             }
         }
 
-        public void Main()
+        public ExamTest Compute(List<GeneratorsTask> tasks)
         {
-            List<GeneratorsTask> teorityList = new List<GeneratorsTask>{
-              new Teority(1, 1, null),
-              new Teority(3, 3, null),
-              new Teority(4, 4, null),
-              new Teority(5, 5, null),
-              new Teority(2, 2, null)
-            };
-            List<GeneratorsTask> practisList = new List<GeneratorsTask>{
-              new Practis(44, 4, null),
-              new Practis(11, 1, null),
-              new Practis(22, 2, null),
-              new Practis(55, 5, null),
-              new Practis(33, 3, null),
-              new Practis(66, 6, null),
-              new Practis(77, 7, null)
-            };
+            List<GeneratorsTask> teorityList = tasks.Where((task) => task.type == TaskType.Theory).ToList();
+
+            List<GeneratorsTask> practisList = tasks.Where((task) => task.type == TaskType.Practice).ToList(); ;
 
             int teorityCount = 3;
             int practisCount = 2;
             int needDifficulty = 15;
-            int variantsCount = 300;
+            int variantsCount = 4;
 
             List<TypeVariables> types = new List<TypeVariables> {
                 new TypeVariables(
@@ -181,6 +168,20 @@ namespace ticket_generator
             }
             Console.WriteLine("");
             Console.WriteLine(setic.Count);
+
+            ExamTest examTest = new ExamTest("❤️lovemaker❤️", new List<Ticket>());
+
+            for (int i = 0; i < variants.Count; i++)
+            {
+                var theory = variants[i].Where((task) => task.type == TaskType.Theory).ToList();
+                var practice = variants[i].Where((task) => task.type == TaskType.Practice).ToList();
+                variants[i] = new List<GeneratorsTask>();
+                variants[i].AddRange(theory);
+                variants[i].AddRange(practice);
+                examTest.tickets.Add(new Ticket(i + 1, variants[i]));
+            }
+
+            return examTest;
         }
     }
 }
