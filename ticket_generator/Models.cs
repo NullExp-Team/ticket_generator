@@ -44,4 +44,28 @@ namespace ticket_generator
         {
         }
     }
+
+    public class Ticket
+    {
+        public int number;
+        public List<GeneratorsTask> tasks;
+
+        public Ticket(int number, List<GeneratorsTask> tasks)
+        {
+            this.number = number;
+            this.tasks = tasks;
+        }
+    }
+
+    public class ExamTest
+    {
+        public string title;
+        public List<Ticket> tickets;
+
+        public ExamTest(string title, List<Ticket> tickets)
+        {
+            this.title = title;
+            this.tickets = tickets;
+        }
+    }
 }
