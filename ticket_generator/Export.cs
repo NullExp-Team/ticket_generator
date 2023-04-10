@@ -25,6 +25,7 @@ namespace ticket_generator
 
             // Удаление всех параграфов, которые добавились из шаблона
             // Мы будем добавлять позже их на каждой итерации для билета
+
             foreach (var par in pars)
             {
                 doc.RemoveParagraph(par);
@@ -51,7 +52,17 @@ namespace ticket_generator
                 {
                     foreach (var par in task.text)
                     {
-                        if (par.ParentContainer != ContainerType.Cell) doc.InsertParagraph(par);
+                        if (par.ParentContainer != ContainerType.Cell) {
+                            try
+                            { 
+                                doc.InsertParagraph(par);
+                            } 
+                            catch
+                            {
+
+                            }
+                           
+                        } 
 
                         // Добавление таблиц
                         // TODO: Попробовать пофиксить слетающий стиль у таблицы кайфа
@@ -93,7 +104,8 @@ namespace ticket_generator
             SaveFileDialog dlg = new SaveFileDialog();
             dlg.Filter = "Word file(*.docx)| *.docx";
             dlg.DefaultExt = ".docx";
-            if (dlg.ShowDialog() == DialogResult.OK)
+            var res = dlg.ShowDialog();
+            if (res == DialogResult.OK)
             {
                 ExportExamTest(test, dlg.FileName);
             }

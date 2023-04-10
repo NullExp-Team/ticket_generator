@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Xceed.Document.NET;
 using Xceed.Words.NET;
 
 namespace ticket_generator
@@ -43,7 +44,7 @@ namespace ticket_generator
             
             return 0;
         }
-        public static List<List<GeneratorsTask>> ImportTasks()
+        public static List<GeneratorsTask> ImportTasks()
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "Text files (*.doc; *.docx)|*.doc; *.docx";
@@ -56,17 +57,18 @@ namespace ticket_generator
 
             var document = DocX.Load(path);
 
-            List<List<GeneratorsTask>> answer = new List<List<GeneratorsTask>>();
+           List<GeneratorsTask> answer = new List<GeneratorsTask>();
+
+            var taskType = TaskType.Practice;
             
-            for (int i = 0, listNumber = -1, task = -1, tableNumber = 0; i < document.Paragraphs.Count; i++)
+            for (int i = 0, task = -1, tableNumber = 0; i < document.Paragraphs.Count; i++)
             {
                 
                 //перед началом списка с теоретическими или практическими вопросами должен идти жирный заголовок
                 if (document.Paragraphs[i].MagicText.Count >= 1 && document.Paragraphs[i].MagicText[0].formatting.Bold == true)
                 {
-                    answer.Add(new List<GeneratorsTask>());
-                    listNumber++;
                     task = -1;
+                    taskType = taskType == TaskType.Practice ? TaskType.Theory : TaskType.Practice;
                 } else
                 {
                     if ((document.Paragraphs[i].Text.Length == 0 || document.Paragraphs[i].Text[0] == ' ') && document.Paragraphs[i].Pictures.Count == 0 && document.Paragraphs[i].FollowingTables == null)
@@ -80,8 +82,8 @@ namespace ticket_generator
                         int difficulty = document.Paragraphs[i].Text[startIndex + 1] - 48;
                         document.Paragraphs[i].RemoveText(0, startIndex+3);
                         task++;
-                        answer[listNumber].Add(new GeneratorsTask(task, difficulty, new List<Xceed.Document.NET.Paragraph>()));
-                        answer[listNumber][task].text.Add(document.Paragraphs[i]);
+                        answer.Add(new GeneratorsTask(task, difficulty, taskType, new List<Paragraph>()));
+                        answer[task].text.Add(document.Paragraphs[i]);
                     } else
                     {
                         
@@ -93,7 +95,7 @@ namespace ticket_generator
                             tableNumber++;
                         } else
                         {
-                            answer[listNumber][task].text.Add(document.Paragraphs[i]);
+                            answer[task].text.Add(document.Paragraphs[i]);
                         }
                     }
                 }

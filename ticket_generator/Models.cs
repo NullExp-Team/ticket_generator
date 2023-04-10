@@ -7,16 +7,25 @@ using Xceed.Document.NET;
 
 namespace ticket_generator
 {
+
+    public enum TaskType
+    {
+        Theory,
+        Practice,
+    }
+
     public class GeneratorsTask : IComparable<GeneratorsTask>
     {
         public int id;
         public int difficulty;
+        public TaskType type;
         public List<Paragraph> text;
 
-        public GeneratorsTask(int id, int difficulty, List<Paragraph> text)
+        public GeneratorsTask(int id, int difficulty, TaskType type, List<Paragraph> text)
         {
             this.id = id;
             this.difficulty = difficulty;
+            this.type = type;
             this.text = text;
         }
 
@@ -28,20 +37,6 @@ namespace ticket_generator
                 : this.difficulty == other.difficulty && this.difficulty == other.difficulty
                     ? 0
                     : -1;
-        }
-    }
-
-    class Teority : GeneratorsTask
-    {
-        public Teority(int id, int difficulty, List<Paragraph> text) : base(id, difficulty, text)
-        {
-        }
-    }
-
-    class Practis : GeneratorsTask
-    {
-        public Practis(int id, int difficulty, List<Paragraph> text) : base(id, difficulty, text)
-        {
         }
     }
 
