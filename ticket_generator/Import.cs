@@ -60,6 +60,7 @@ namespace ticket_generator
             
             for (int i = 0, listNumber = -1, task = -1, tableNumber = 0; i < document.Paragraphs.Count; i++)
             {
+                
                 //перед началом списка с теоретическими или практическими вопросами должен идти жирный заголовок
                 if (document.Paragraphs[i].MagicText.Count >= 1 && document.Paragraphs[i].MagicText[0].formatting.Bold == true)
                 {
@@ -83,7 +84,10 @@ namespace ticket_generator
                         answer[listNumber][task].text.Add(document.Paragraphs[i]);
                     } else
                     {
-                        if (document.Paragraphs[i].ParentContainer == Xceed.Document.NET.ContainerType.Cell)
+                        
+                        //TODO: Чекнуть работу таблиц
+                        if (false)
+                        //if (document.Paragraphs[i].ParentContainer == Xceed.Document.NET.ContainerType.Cell)
                         {
                             i += document.Tables[tableNumber].Paragraphs.Count()-1;
                             tableNumber++;
