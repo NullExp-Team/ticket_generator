@@ -51,7 +51,15 @@ namespace ticket_generator
                 {
                     foreach (var par in task.text)
                     {
-                        doc.InsertParagraph(par);
+                        if (par.ParentContainer != ContainerType.Cell) doc.InsertParagraph(par);
+
+                        // Добавление таблиц
+                        // TODO: Попробовать пофиксить слетающий стиль у таблицы кайфа
+                        if (par.FollowingTables?.Count > 0)
+                        {
+                            var tables = par.FollowingTables;
+                            foreach (var table in tables) doc.InsertTable(table);
+                        }
                     }
                 }
 
