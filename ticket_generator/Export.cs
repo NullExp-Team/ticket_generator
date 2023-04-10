@@ -16,43 +16,53 @@ namespace ticket_generator
         {
             var doc = DocX.Create(path);
 
+            // Применение контитулов из шаблона
+            doc.ApplyTemplate("../../template.docx");
+
+            var template = DocX.Load ("../../template.docx");
+
+            var pars = doc.Paragraphs.Cast<Paragraph>().ToList();
+
+            // Удаление всех параграфов, которые добавились из шаблона
+            // Мы будем добавлять позже их на каждой итерации для билета
+            foreach (var par in pars)
+            {
+                doc.RemoveParagraph(par);
+            }
+
             for (int i = 0; i < test.tickets.Count; i++)
-            {   
+            {
                 var ticket = test.tickets[i];
 
-                string title = test.title;
-                string ticketNumber = "Билет № " + ticket.number + '\r';
-
-                Formatting titleFormat = new Formatting();
-                titleFormat.FontFamily = new Font("Times New Roman");
-                titleFormat.Size = 18D;
-                titleFormat.Position = 1;
-                titleFormat.FontColor = System.Drawing.Color.Black;
-
-                Paragraph paragraphTitle = doc.InsertParagraph(title.Trim('\n', '\r'), false, titleFormat);
-                Paragraph paragraphTitle2 = doc.InsertParagraph(ticketNumber, false, titleFormat);
-
-                paragraphTitle.Alignment = Alignment.both;
-                paragraphTitle2.Alignment = Alignment.right;
-
-                for (int j = 0; j < ticket.tasks.Count; j++)
+                // Добавленям параграфы из шаблона, пока не находим тег.
+                int templateParIndex = 0;
+                for (; templateParIndex < template.Paragraphs.Count; templateParIndex++)
                 {
-                    var task = ticket.tasks[j];
-                    //titleFormat.FontFamily = new Font("Times New Roman");
-                    //titleFormat.Size = 13D;
-                    //titleFormat.Position = 40;
-                    //titleFormat.FontColor = System.Drawing.Color.Black;
-                    //Formatting textParagraphFormat = new Formatting();
-                    //textParagraphFormat.FontFamily = new Font("Arial");
-                    //textParagraphFormat.Spacing = 1;
-                    //string textParagraph = (j + 1) + ". " + variantList[i].tasks[j].conditionWithNumberedQuestions + '\r';
+                    var par = template.Paragraphs[templateParIndex];
+                    if (par.FindAll("[[tasks]]").Count > 0) {
+                        templateParIndex++;
+                        break;
+                    }
+                    doc.InsertParagraph(par);
+                }
 
+                // Добавление текста задач 
+                foreach (var task in ticket.tasks)
+                {
                     foreach (var par in task.text)
                     {
                         doc.InsertParagraph(par);
                     }
                 }
 
+                // Продолжаем добавлять оставшиеся параграфы из шаблона
+                for (; templateParIndex < template.Paragraphs.Count; templateParIndex++)
+                {
+                    var par = template.Paragraphs[templateParIndex];
+                    doc.InsertParagraph(par);
+                }
+
+                // Разрыв страницы
                 if (i != test.tickets.Count - 1)
                 {
                     doc.InsertParagraph("").InsertPageBreakAfterSelf();
@@ -60,9 +70,7 @@ namespace ticket_generator
                     
             }
 
-
             doc.Save();
-
         }
 
         public static void ExportDialog(ExamTest test)
