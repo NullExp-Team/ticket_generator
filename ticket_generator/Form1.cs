@@ -64,5 +64,20 @@ namespace ticket_generator
 
             MessageBox.Show("Билеты успешно сгенерированы"); return;
         }
+
+        private void questionsLabel_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void outputLabel_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
