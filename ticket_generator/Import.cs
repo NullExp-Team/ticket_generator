@@ -81,6 +81,17 @@ namespace ticket_generator
                         continue;
                     }
                     int startIndex = ClearStartOfParagraphs(document, i);
+                    if (document.Paragraphs[i].FollowingTables != null)
+                    {
+                        foreach (var table in document.Paragraphs[i].FollowingTables)
+                        {
+                            foreach (var type in Enum.GetValues(typeof(TableBorderType)).Cast<TableBorderType>())
+                            {
+                                table.SetBorder(type, table.GetBorder(type));
+                            }
+                        }
+                    }
+
                     // чтобы определить, что начался новый вопрос, достаточно найти знак ! вначале, после которого следует сложность
                     if (document.Paragraphs[i].Text.Length > 0 && document.Paragraphs[i].Text[startIndex] == '!')
                     {
@@ -94,6 +105,7 @@ namespace ticket_generator
                                 .First(numId => numId.Name.LocalName == "numId")
                                 .FirstAttribute.Value = "0";
                         }
+                        
 
                         bool tb = document.Paragraphs[i].IsListItem;
 
