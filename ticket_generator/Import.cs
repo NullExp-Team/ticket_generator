@@ -86,6 +86,17 @@ namespace ticket_generator
                     {
                         int difficulty = document.Paragraphs[i].Text[startIndex + 1] - 48;
                         document.Paragraphs[i].RemoveText(0, startIndex+3);
+
+                        var tmp = document.Paragraphs[i].Xml.Descendants().FirstOrDefault(el => el.Name.LocalName == "numPr");
+                        if (tmp != null)
+                        {
+                            document.Paragraphs[i].Xml.Descendants().FirstOrDefault(el => el.Name.LocalName == "numPr").Descendants()
+                                .First(numId => numId.Name.LocalName == "numId")
+                                .FirstAttribute.Value = "0";
+                        }
+
+                        bool tb = document.Paragraphs[i].IsListItem;
+
                         task++;
                         answer.Add(new GeneratorsTask(task, difficulty, taskType, new List<Paragraph>()));
                         answer[task].text.Add(document.Paragraphs[i]);

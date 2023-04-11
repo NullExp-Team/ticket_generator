@@ -48,14 +48,23 @@ namespace ticket_generator
                 }
 
                 // Добавление текста задач 
-                foreach (var task in ticket.tasks)
+                for (int task = 0; task < ticket.tasks.Count; task++)
                 {
-                    foreach (var par in task.text)
+                    for (int par = 0; par < ticket.tasks[task].text.Count; par++)
                     {
-                        if (par.ParentContainer != ContainerType.Cell) {
+                        if (ticket.tasks[task].text[par].ParentContainer != ContainerType.Cell) {
                             try
                             { 
-                                doc.InsertParagraph(par);
+                                if (par == 0)
+                                {
+                                    String number = (task + 1).ToString() + ". ";
+                                    ticket.tasks[task].text[par].InsertText(0, number);
+                                    doc.InsertParagraph(ticket.tasks[task].text[par]);
+                                    ticket.tasks[task].text[par].RemoveText(0, number.Length);
+                                } else
+                                {
+                                    doc.InsertParagraph(ticket.tasks[task].text[par]);
+                                }
                             } 
                             catch
                             {
@@ -66,9 +75,9 @@ namespace ticket_generator
 
                         // Добавление таблиц
                         // TODO: Попробовать пофиксить слетающий стиль у таблицы кайфа
-                        if (par.FollowingTables?.Count > 0)
+                        if (ticket.tasks[task].text[par].FollowingTables?.Count > 0)
                         {
-                            var tables = par.FollowingTables;
+                            var tables = ticket.tasks[task].text[par].FollowingTables;
                             foreach (var table in tables) doc.InsertTable(table);
                         }
                     }
