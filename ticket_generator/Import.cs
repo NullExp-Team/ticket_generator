@@ -44,17 +44,23 @@ namespace ticket_generator
             
             return 0;
         }
-        public static List<GeneratorsTask> ImportTasks()
+
+         public  static string ImportDialog()
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "Text files (*.doc; *.docx)|*.doc; *.docx";
 
-            string path = "";
+            string path = null;
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 path = openFileDialog.FileName;
             }
+            return path;
+        }
 
+        public static List<GeneratorsTask> ImportTasks(string path)
+        {
+           
             var document = DocX.Load(path);
 
            List<GeneratorsTask> answer = new List<GeneratorsTask>();
