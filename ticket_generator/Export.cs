@@ -12,14 +12,14 @@ namespace ticket_generator
     public class Export
     {
 
-        private static void ExportExamTest(ExamTest test, string path)
+        public static void ExportExamTest(ExamTest test, string outputPath, string templatePath)
         {
-            var doc = DocX.Create(path);
+            var doc = DocX.Create(outputPath);
 
             // Применение контитулов из шаблона
-            doc.ApplyTemplate("../../template.docx");
+            doc.ApplyTemplate(templatePath);
 
-            var template = DocX.Load ("../../template.docx");
+            var template = DocX.Load (templatePath);
 
             var pars = doc.Paragraphs.Cast<Paragraph>().ToList();
 
@@ -99,16 +99,19 @@ namespace ticket_generator
             doc.Save();
         }
 
-        public static void ExportDialog(ExamTest test)
+        public static string ExportDialog()
         {
             SaveFileDialog dlg = new SaveFileDialog();
             dlg.Filter = "Word file(*.docx)| *.docx";
             dlg.DefaultExt = ".docx";
+            string path = null;
             var res = dlg.ShowDialog();
             if (res == DialogResult.OK)
             {
-                ExportExamTest(test, dlg.FileName);
+                path = dlg.FileName;
             }
+
+            return path;
         }
 
     }
