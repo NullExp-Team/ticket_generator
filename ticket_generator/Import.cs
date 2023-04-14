@@ -58,15 +58,24 @@ namespace ticket_generator
             return path;
         }
 
-        public static List<GeneratorsTask> ImportTasks(string path)
+        public static List<GeneratorsTask> ImportTasksDoubleFileMode(string pathTr, string pathPr)
+        {
+            List<GeneratorsTask> list1 = ImportTasks(pathTr);
+            List<GeneratorsTask> list2 = ImportTasks(pathPr, false);
+
+            list1.AddRange(list2);
+            return list1;
+        }
+
+        public static List<GeneratorsTask> ImportTasks(string path, bool isTeorityFirst = true)
         {
            
             var document = DocX.Load(path);
 
            List<GeneratorsTask> answer = new List<GeneratorsTask>();
 
-            var taskType = TaskType.Practice;
-            
+            var taskType = isTeorityFirst ? TaskType.Practice : TaskType.Theory;
+
             for (int i = 0, task = -1; i < document.Paragraphs.Count; i++)
             {
                 

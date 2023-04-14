@@ -34,10 +34,7 @@ namespace ticket_generator
             this.template = new System.Windows.Forms.Button();
             this.output = new System.Windows.Forms.Button();
             this.compute = new System.Windows.Forms.Button();
-            this.questionsLabel = new System.Windows.Forms.Label();
-            this.outputLabel = new System.Windows.Forms.Label();
             this.cumputeLabel = new System.Windows.Forms.Label();
-            this.templateLabel = new System.Windows.Forms.Label();
             this.title = new System.Windows.Forms.Label();
             this.HowTo = new System.Windows.Forms.TextBox();
             this.difficultyText = new System.Windows.Forms.TextBox();
@@ -48,11 +45,13 @@ namespace ticket_generator
             this.diff = new System.Windows.Forms.Label();
             this.vars = new System.Windows.Forms.Label();
             this.variantsText = new System.Windows.Forms.TextBox();
+            this.doubleFileMode = new System.Windows.Forms.CheckBox();
+            this.practisQuestions = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // questions
             // 
-            this.questions.Location = new System.Drawing.Point(867, 12);
+            this.questions.Location = new System.Drawing.Point(869, 42);
             this.questions.Name = "questions";
             this.questions.Size = new System.Drawing.Size(234, 45);
             this.questions.TabIndex = 1;
@@ -62,7 +61,7 @@ namespace ticket_generator
             // 
             // template
             // 
-            this.template.Location = new System.Drawing.Point(869, 207);
+            this.template.Location = new System.Drawing.Point(869, 195);
             this.template.Name = "template";
             this.template.Size = new System.Drawing.Size(232, 45);
             this.template.TabIndex = 2;
@@ -72,7 +71,7 @@ namespace ticket_generator
             // 
             // output
             // 
-            this.output.Location = new System.Drawing.Point(865, 109);
+            this.output.Location = new System.Drawing.Point(869, 144);
             this.output.Name = "output";
             this.output.Size = new System.Drawing.Size(236, 45);
             this.output.TabIndex = 3;
@@ -90,26 +89,6 @@ namespace ticket_generator
             this.compute.UseVisualStyleBackColor = true;
             this.compute.Click += new System.EventHandler(this.compute_Click);
             // 
-            // questionsLabel
-            // 
-            this.questionsLabel.AutoSize = true;
-            this.questionsLabel.Location = new System.Drawing.Point(866, 60);
-            this.questionsLabel.Name = "questionsLabel";
-            this.questionsLabel.Size = new System.Drawing.Size(87, 17);
-            this.questionsLabel.TabIndex = 5;
-            this.questionsLabel.Text = "Не выбрано";
-            this.questionsLabel.Click += new System.EventHandler(this.questionsLabel_Click);
-            // 
-            // outputLabel
-            // 
-            this.outputLabel.AutoSize = true;
-            this.outputLabel.Location = new System.Drawing.Point(866, 157);
-            this.outputLabel.Name = "outputLabel";
-            this.outputLabel.Size = new System.Drawing.Size(87, 17);
-            this.outputLabel.TabIndex = 6;
-            this.outputLabel.Text = "Не выбрано";
-            this.outputLabel.Click += new System.EventHandler(this.outputLabel_Click);
-            // 
             // cumputeLabel
             // 
             this.cumputeLabel.AutoSize = true;
@@ -117,15 +96,6 @@ namespace ticket_generator
             this.cumputeLabel.Name = "cumputeLabel";
             this.cumputeLabel.Size = new System.Drawing.Size(0, 17);
             this.cumputeLabel.TabIndex = 7;
-            // 
-            // templateLabel
-            // 
-            this.templateLabel.AutoSize = true;
-            this.templateLabel.Location = new System.Drawing.Point(866, 255);
-            this.templateLabel.Name = "templateLabel";
-            this.templateLabel.Size = new System.Drawing.Size(87, 17);
-            this.templateLabel.TabIndex = 8;
-            this.templateLabel.Text = "Не выбрано";
             // 
             // title
             // 
@@ -215,11 +185,37 @@ namespace ticket_generator
             this.variantsText.Size = new System.Drawing.Size(100, 22);
             this.variantsText.TabIndex = 17;
             // 
+            // doubleFileMode
+            // 
+            this.doubleFileMode.AutoSize = true;
+            this.doubleFileMode.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.doubleFileMode.Location = new System.Drawing.Point(869, 15);
+            this.doubleFileMode.Name = "doubleFileMode";
+            this.doubleFileMode.Size = new System.Drawing.Size(242, 20);
+            this.doubleFileMode.TabIndex = 19;
+            this.doubleFileMode.Text = "Разделённая теория и практика";
+            this.doubleFileMode.UseVisualStyleBackColor = true;
+            this.doubleFileMode.CheckedChanged += new System.EventHandler(this.doubleFileMode_CheckedChanged);
+            // 
+            // practisQuestions
+            // 
+            this.practisQuestions.Enabled = false;
+            this.practisQuestions.Location = new System.Drawing.Point(869, 93);
+            this.practisQuestions.Name = "practisQuestions";
+            this.practisQuestions.Size = new System.Drawing.Size(234, 45);
+            this.practisQuestions.TabIndex = 20;
+            this.practisQuestions.Text = "Выбрать файл с практикой";
+            this.practisQuestions.UseVisualStyleBackColor = true;
+            this.practisQuestions.Visible = false;
+            this.practisQuestions.Click += new System.EventHandler(this.practisQuestions_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1106, 591);
+            this.Controls.Add(this.practisQuestions);
+            this.Controls.Add(this.doubleFileMode);
             this.Controls.Add(this.vars);
             this.Controls.Add(this.variantsText);
             this.Controls.Add(this.diff);
@@ -230,10 +226,7 @@ namespace ticket_generator
             this.Controls.Add(this.difficultyText);
             this.Controls.Add(this.HowTo);
             this.Controls.Add(this.title);
-            this.Controls.Add(this.templateLabel);
             this.Controls.Add(this.cumputeLabel);
-            this.Controls.Add(this.outputLabel);
-            this.Controls.Add(this.questionsLabel);
             this.Controls.Add(this.compute);
             this.Controls.Add(this.output);
             this.Controls.Add(this.template);
@@ -252,10 +245,7 @@ namespace ticket_generator
         private System.Windows.Forms.Button template;
         private System.Windows.Forms.Button output;
         private System.Windows.Forms.Button compute;
-        private System.Windows.Forms.Label questionsLabel;
-        private System.Windows.Forms.Label outputLabel;
         private System.Windows.Forms.Label cumputeLabel;
-        private System.Windows.Forms.Label templateLabel;
         private System.Windows.Forms.Label title;
         private System.Windows.Forms.TextBox HowTo;
         private System.Windows.Forms.TextBox difficultyText;
@@ -266,6 +256,8 @@ namespace ticket_generator
         private System.Windows.Forms.Label diff;
         private System.Windows.Forms.Label vars;
         private System.Windows.Forms.TextBox variantsText;
+        private System.Windows.Forms.CheckBox doubleFileMode;
+        private System.Windows.Forms.Button practisQuestions;
     }
 }
 
