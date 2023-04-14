@@ -56,16 +56,12 @@ namespace ticket_generator
             }
         }
 
-        public ExamTest Compute(List<GeneratorsTask> tasks)
+        public ExamTest Compute(List<GeneratorsTask> tasks, int teorityCount, int practisCount, double needDifficulty, int variantsCount)
         {
+            needDifficulty *= teorityCount + practisCount;
             List<GeneratorsTask> teorityList = tasks.Where((task) => task.type == TaskType.Theory).ToList();
 
             List<GeneratorsTask> practisList = tasks.Where((task) => task.type == TaskType.Practice).ToList(); ;
-
-            int teorityCount = 3;
-            int practisCount = 2;
-            int needDifficulty = 15;
-            int variantsCount = 4;
 
             List<TypeVariables> types = new List<TypeVariables> {
                 new TypeVariables(
