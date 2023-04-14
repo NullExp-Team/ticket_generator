@@ -122,7 +122,7 @@ namespace ticket_generator
                 }
                 ExamTest examTest = algorithm.Compute(tasks, tc, pc, df, vc);
 
-                Export.ExportExamTest(examTest, outputFilePath, templateFilePath);
+                Export.ExportExamTest(examTest, outputFilePath, templateFilePath, onlyNumberMode.Checked);
 
                 MessageBox.Show("Билеты успешно сгенерированы"); return;
 

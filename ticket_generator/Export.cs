@@ -12,7 +12,7 @@ namespace ticket_generator
     public class Export
     {
 
-        public static void ExportExamTest(ExamTest test, string outputPath, string templatePath)
+        public static void ExportExamTest(ExamTest test, string outputPath, string templatePath, bool onlyNumberMode)
         {
             var doc = DocX.Create(outputPath);
 
@@ -47,40 +47,64 @@ namespace ticket_generator
                     doc.InsertParagraph(par);
                 }
 
+                int exsampleTask = 0;
+                string practisNumber = "";
                 // Добавление текста задач 
                 for (int task = 0; task < ticket.tasks.Count; task++)
                 {
-                    for (int par = 0; par < ticket.tasks[task].text.Count; par++)
+                    
+                    if (onlyNumberMode && ticket.tasks[task].type == TaskType.Practice)
                     {
-                        if (ticket.tasks[task].text[par].ParentContainer != ContainerType.Cell) {
-                            try
-                            { 
-                                if (par == 0)
-                                {
-                                    String number = (task + 1).ToString() + ". ";
-                                    ticket.tasks[task].text[par].InsertText(0, number);
-                                    doc.InsertParagraph(ticket.tasks[task].text[par]);
-                                    ticket.tasks[task].text[par].RemoveText(0, number.Length);
-                                } else
-                                {
-                                    doc.InsertParagraph(ticket.tasks[task].text[par]);
-                                }
-                            } 
-                            catch
+                        practisNumber += ticket.tasks[task].id + ", ";
+                        exsampleTask = task;
+                    }
+                    else
+                    {
+                        for (int par = 0; par < ticket.tasks[task].text.Count; par++)
+                        {
+
+                            if (ticket.tasks[task].text[par].ParentContainer != ContainerType.Cell)
                             {
+                                try
+                                {
+                                    if (par == 0)
+                                    {
+                                        string number = (task + 1).ToString() + ". ";
+                                        ticket.tasks[task].text[par].InsertText(0, number);
+                                        doc.InsertParagraph(ticket.tasks[task].text[par]);
+                                        ticket.tasks[task].text[par].RemoveText(0, number.Length);
+                                    }
+                                    else
+                                    {
+                                        doc.InsertParagraph(ticket.tasks[task].text[par]);
+                                    }
+
+                                }
+                                catch
+                                {
+
+                                }
 
                             }
-                           
-                        } 
 
-                        // Добавление таблиц
-                        // TODO: Попробовать пофиксить слетающий стиль у таблицы кайфа
-                        if (ticket.tasks[task].text[par].FollowingTables?.Count > 0)
-                        {
-                            var tables = ticket.tasks[task].text[par].FollowingTables;
-                            foreach (var table in tables) doc.InsertTable(table);
+                            // Добавление таблиц
+                            if (ticket.tasks[task].text[par].FollowingTables?.Count > 0)
+                            {
+                                var tables = ticket.tasks[task].text[par].FollowingTables;
+                                foreach (var table in tables) doc.InsertTable(table);
+                            }
                         }
                     }
+                   
+                }
+
+                if (onlyNumberMode && practisNumber != "")
+                {
+                    int number = ticket.tasks[exsampleTask].text[0].Text.Length;
+                    string newText = "Практические задания номер: " + practisNumber.Substring(0, practisNumber.Length - 2);
+                    ticket.tasks[exsampleTask].text[0].InsertText(0, newText);
+                    ticket.tasks[exsampleTask].text[0].RemoveText(newText.Length, number);
+                    doc.InsertParagraph(ticket.tasks[exsampleTask].text[0]);
                 }
 
                 // Продолжаем добавлять оставшиеся параграфы из шаблона

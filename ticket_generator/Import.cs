@@ -76,13 +76,14 @@ namespace ticket_generator
 
             var taskType = isTeorityFirst ? TaskType.Practice : TaskType.Theory;
 
-            for (int i = 0, task = -1; i < document.Paragraphs.Count; i++)
+            for (int i = 0, task = -1, id = 0; i < document.Paragraphs.Count; i++)
             {
                 
                 //перед началом списка с теоретическими или практическими вопросами должен идти жирный заголовок
                 if (document.Paragraphs[i].MagicText.Count >= 1 && document.Paragraphs[i].MagicText[0].formatting.Bold == true)
                 {
                     taskType = taskType == TaskType.Practice ? TaskType.Theory : TaskType.Practice;
+                    id = 0;
                 } else
                 {
                     if ((document.Paragraphs[i].Text.Length == 0 || document.Paragraphs[i].Text[0] == ' ') && document.Paragraphs[i].Pictures.Count == 0 && document.Paragraphs[i].FollowingTables == null)
@@ -119,7 +120,8 @@ namespace ticket_generator
                         bool tb = document.Paragraphs[i].IsListItem;
 
                         task++;
-                        answer.Add(new GeneratorsTask(task, difficulty, taskType, new List<Paragraph>()));
+                        id++;
+                        answer.Add(new GeneratorsTask(id, difficulty, taskType, new List<Paragraph>()));
                         answer[task].text.Add(document.Paragraphs[i]);
                     } else
                     {

@@ -47,6 +47,7 @@ namespace ticket_generator
             this.variantsText = new System.Windows.Forms.TextBox();
             this.doubleFileMode = new System.Windows.Forms.CheckBox();
             this.practisQuestions = new System.Windows.Forms.Button();
+            this.onlyNumberMode = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // questions
@@ -209,11 +210,23 @@ namespace ticket_generator
             this.practisQuestions.Visible = false;
             this.practisQuestions.Click += new System.EventHandler(this.practisQuestions_Click);
             // 
+            // onlyNumberMode
+            // 
+            this.onlyNumberMode.AutoSize = true;
+            this.onlyNumberMode.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.onlyNumberMode.Location = new System.Drawing.Point(865, 246);
+            this.onlyNumberMode.Name = "onlyNumberMode";
+            this.onlyNumberMode.Size = new System.Drawing.Size(206, 20);
+            this.onlyNumberMode.TabIndex = 21;
+            this.onlyNumberMode.Text = "Писать только № практики";
+            this.onlyNumberMode.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1106, 591);
+            this.Controls.Add(this.onlyNumberMode);
             this.Controls.Add(this.practisQuestions);
             this.Controls.Add(this.doubleFileMode);
             this.Controls.Add(this.vars);
@@ -258,6 +271,7 @@ namespace ticket_generator
         private System.Windows.Forms.TextBox variantsText;
         private System.Windows.Forms.CheckBox doubleFileMode;
         private System.Windows.Forms.Button practisQuestions;
+        private System.Windows.Forms.CheckBox onlyNumberMode;
     }
 }
 
