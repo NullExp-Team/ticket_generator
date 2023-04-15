@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,14 +20,14 @@ namespace ticket_generator
         public int id;
         public int difficulty;
         public TaskType type;
-        public List<Paragraph> text;
+        public List<TaskText> taskTexts;
 
-        public GeneratorsTask(int id, int difficulty, TaskType type, List<Paragraph> text)
+        public GeneratorsTask(int id, int difficulty, TaskType type, List<TaskText> text)
         {
             this.id = id;
             this.difficulty = difficulty;
             this.type = type;
-            this.text = text;
+            this.taskTexts = text;
         }
 
         public int CompareTo(GeneratorsTask other)
@@ -37,6 +38,18 @@ namespace ticket_generator
                 : this.difficulty == other.difficulty && this.difficulty == other.difficulty
                     ? 0
                     : -1;
+        }
+    }
+
+    public class TaskText
+    {
+        public List<Picture> pictures;
+        public Paragraph paragraph;
+
+        public TaskText(List<Picture> images, Paragraph paragraph)
+        {
+            this.pictures = images;
+            this.paragraph = paragraph;
         }
     }
 

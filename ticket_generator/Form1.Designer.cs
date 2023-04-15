@@ -95,7 +95,7 @@ namespace ticket_generator
             this.cumputeLabel.AutoSize = true;
             this.cumputeLabel.Location = new System.Drawing.Point(866, 495);
             this.cumputeLabel.Name = "cumputeLabel";
-            this.cumputeLabel.Size = new System.Drawing.Size(0, 17);
+            this.cumputeLabel.Size = new System.Drawing.Size(0, 16);
             this.cumputeLabel.TabIndex = 7;
             // 
             // title
@@ -148,7 +148,7 @@ namespace ticket_generator
             this.teor.AutoSize = true;
             this.teor.Location = new System.Drawing.Point(862, 392);
             this.teor.Name = "teor";
-            this.teor.Size = new System.Drawing.Size(173, 17);
+            this.teor.Size = new System.Drawing.Size(173, 16);
             this.teor.TabIndex = 14;
             this.teor.Text = "Теоретических вопросов";
             // 
@@ -157,7 +157,7 @@ namespace ticket_generator
             this.pract.AutoSize = true;
             this.pract.Location = new System.Drawing.Point(862, 437);
             this.pract.Name = "pract";
-            this.pract.Size = new System.Drawing.Size(165, 17);
+            this.pract.Size = new System.Drawing.Size(165, 16);
             this.pract.TabIndex = 15;
             this.pract.Text = "Практических вопросов";
             // 
@@ -166,7 +166,7 @@ namespace ticket_generator
             this.diff.AutoSize = true;
             this.diff.Location = new System.Drawing.Point(862, 482);
             this.diff.Name = "diff";
-            this.diff.Size = new System.Drawing.Size(247, 17);
+            this.diff.Size = new System.Drawing.Size(242, 16);
             this.diff.TabIndex = 16;
             this.diff.Text = "Средняя сложность вопроса билета";
             // 
@@ -175,7 +175,7 @@ namespace ticket_generator
             this.vars.AutoSize = true;
             this.vars.Location = new System.Drawing.Point(862, 347);
             this.vars.Name = "vars";
-            this.vars.Size = new System.Drawing.Size(79, 17);
+            this.vars.Size = new System.Drawing.Size(79, 16);
             this.vars.TabIndex = 18;
             this.vars.Text = "Вариантов";
             // 
@@ -185,6 +185,7 @@ namespace ticket_generator
             this.variantsText.Name = "variantsText";
             this.variantsText.Size = new System.Drawing.Size(100, 22);
             this.variantsText.TabIndex = 17;
+            this.variantsText.Text = "10";
             // 
             // doubleFileMode
             // 
@@ -192,7 +193,7 @@ namespace ticket_generator
             this.doubleFileMode.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.doubleFileMode.Location = new System.Drawing.Point(869, 15);
             this.doubleFileMode.Name = "doubleFileMode";
-            this.doubleFileMode.Size = new System.Drawing.Size(242, 20);
+            this.doubleFileMode.Size = new System.Drawing.Size(241, 20);
             this.doubleFileMode.TabIndex = 19;
             this.doubleFileMode.Text = "Разделённая теория и практика";
             this.doubleFileMode.UseVisualStyleBackColor = true;
@@ -216,7 +217,7 @@ namespace ticket_generator
             this.onlyNumberMode.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.onlyNumberMode.Location = new System.Drawing.Point(865, 246);
             this.onlyNumberMode.Name = "onlyNumberMode";
-            this.onlyNumberMode.Size = new System.Drawing.Size(206, 20);
+            this.onlyNumberMode.Size = new System.Drawing.Size(205, 20);
             this.onlyNumberMode.TabIndex = 21;
             this.onlyNumberMode.Text = "Писать только № практики";
             this.onlyNumberMode.UseVisualStyleBackColor = true;

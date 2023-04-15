@@ -109,27 +109,22 @@ namespace ticket_generator
             {
                 tasks = Import.ImportTasks(questionFilePath);
             }
-            
-            try
+           
+            int tc = Convert.ToInt32(teorityText.Text);
+            int pc = Convert.ToInt32(practisText.Text);
+            double df = Convert.ToDouble(difficultyText.Text.Replace('.', ','));
+            int vc = Convert.ToInt32(variantsText.Text);
+            if (df < 1 || df > 5)
             {
-                int tc = Convert.ToInt32(teorityText.Text);
-                int pc = Convert.ToInt32(practisText.Text);
-                double df = Convert.ToDouble(difficultyText.Text.Replace('.', ','));
-                int vc = Convert.ToInt32(variantsText.Text);
-                if (df < 1 || df > 5)
-                {
-                    throw new OverflowException();
-                }
-                ExamTest examTest = algorithm.Compute(tasks, tc, pc, df, vc);
-
-                Export.ExportExamTest(examTest, outputFilePath, templateFilePath, onlyNumberMode.Checked);
-
-                MessageBox.Show("Билеты успешно сгенерированы"); return;
-
-            } catch
-            {
-                MessageBox.Show("Неправильный формат введённый данных!");
+                throw new OverflowException();
             }
+            ExamTest examTest = algorithm.Compute(tasks, tc, pc, df, vc);
+
+            Export.ExportExamTest(examTest, outputFilePath, templateFilePath, onlyNumberMode.Checked);
+
+            MessageBox.Show("Билеты успешно сгенерированы"); return;
+
+           
 
             
         }
