@@ -29,14 +29,11 @@ namespace ticket_generator
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.questions = new System.Windows.Forms.Button();
             this.template = new System.Windows.Forms.Button();
             this.output = new System.Windows.Forms.Button();
             this.compute = new System.Windows.Forms.Button();
             this.cumputeLabel = new System.Windows.Forms.Label();
-            this.title = new System.Windows.Forms.Label();
-            this.HowTo = new System.Windows.Forms.TextBox();
             this.difficultyText = new System.Windows.Forms.TextBox();
             this.practisText = new System.Windows.Forms.TextBox();
             this.teorityText = new System.Windows.Forms.TextBox();
@@ -48,11 +45,12 @@ namespace ticket_generator
             this.doubleFileMode = new System.Windows.Forms.CheckBox();
             this.practisQuestions = new System.Windows.Forms.Button();
             this.onlyNumberMode = new System.Windows.Forms.CheckBox();
+            this.webBrowser1 = new System.Windows.Forms.WebBrowser();
             this.SuspendLayout();
             // 
             // questions
             // 
-            this.questions.Location = new System.Drawing.Point(869, 42);
+            this.questions.Location = new System.Drawing.Point(813, 46);
             this.questions.Name = "questions";
             this.questions.Size = new System.Drawing.Size(234, 45);
             this.questions.TabIndex = 1;
@@ -62,7 +60,7 @@ namespace ticket_generator
             // 
             // template
             // 
-            this.template.Location = new System.Drawing.Point(869, 195);
+            this.template.Location = new System.Drawing.Point(813, 199);
             this.template.Name = "template";
             this.template.Size = new System.Drawing.Size(232, 45);
             this.template.TabIndex = 2;
@@ -72,7 +70,7 @@ namespace ticket_generator
             // 
             // output
             // 
-            this.output.Location = new System.Drawing.Point(869, 144);
+            this.output.Location = new System.Drawing.Point(813, 148);
             this.output.Name = "output";
             this.output.Size = new System.Drawing.Size(236, 45);
             this.output.TabIndex = 3;
@@ -82,7 +80,7 @@ namespace ticket_generator
             // 
             // compute
             // 
-            this.compute.Location = new System.Drawing.Point(865, 534);
+            this.compute.Location = new System.Drawing.Point(809, 538);
             this.compute.Name = "compute";
             this.compute.Size = new System.Drawing.Size(234, 45);
             this.compute.TabIndex = 4;
@@ -93,35 +91,14 @@ namespace ticket_generator
             // cumputeLabel
             // 
             this.cumputeLabel.AutoSize = true;
-            this.cumputeLabel.Location = new System.Drawing.Point(866, 495);
+            this.cumputeLabel.Location = new System.Drawing.Point(810, 499);
             this.cumputeLabel.Name = "cumputeLabel";
             this.cumputeLabel.Size = new System.Drawing.Size(0, 16);
             this.cumputeLabel.TabIndex = 7;
             // 
-            // title
-            // 
-            this.title.AutoSize = true;
-            this.title.Font = new System.Drawing.Font("Microsoft Sans Serif", 22F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.title.Location = new System.Drawing.Point(12, 15);
-            this.title.Name = "title";
-            this.title.Size = new System.Drawing.Size(355, 42);
-            this.title.TabIndex = 9;
-            this.title.Text = "Генератор билетов";
-            // 
-            // HowTo
-            // 
-            this.HowTo.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.HowTo.Location = new System.Drawing.Point(19, 60);
-            this.HowTo.Multiline = true;
-            this.HowTo.Name = "HowTo";
-            this.HowTo.ReadOnly = true;
-            this.HowTo.Size = new System.Drawing.Size(840, 519);
-            this.HowTo.TabIndex = 10;
-            this.HowTo.Text = resources.GetString("HowTo.Text");
-            // 
             // difficultyText
             // 
-            this.difficultyText.Location = new System.Drawing.Point(872, 502);
+            this.difficultyText.Location = new System.Drawing.Point(816, 506);
             this.difficultyText.Name = "difficultyText";
             this.difficultyText.Size = new System.Drawing.Size(100, 22);
             this.difficultyText.TabIndex = 11;
@@ -129,7 +106,7 @@ namespace ticket_generator
             // 
             // practisText
             // 
-            this.practisText.Location = new System.Drawing.Point(869, 457);
+            this.practisText.Location = new System.Drawing.Point(813, 461);
             this.practisText.Name = "practisText";
             this.practisText.Size = new System.Drawing.Size(100, 22);
             this.practisText.TabIndex = 12;
@@ -137,7 +114,7 @@ namespace ticket_generator
             // 
             // teorityText
             // 
-            this.teorityText.Location = new System.Drawing.Point(869, 412);
+            this.teorityText.Location = new System.Drawing.Point(813, 416);
             this.teorityText.Name = "teorityText";
             this.teorityText.Size = new System.Drawing.Size(100, 22);
             this.teorityText.TabIndex = 13;
@@ -146,7 +123,7 @@ namespace ticket_generator
             // teor
             // 
             this.teor.AutoSize = true;
-            this.teor.Location = new System.Drawing.Point(862, 392);
+            this.teor.Location = new System.Drawing.Point(806, 396);
             this.teor.Name = "teor";
             this.teor.Size = new System.Drawing.Size(173, 16);
             this.teor.TabIndex = 14;
@@ -155,7 +132,7 @@ namespace ticket_generator
             // pract
             // 
             this.pract.AutoSize = true;
-            this.pract.Location = new System.Drawing.Point(862, 437);
+            this.pract.Location = new System.Drawing.Point(806, 441);
             this.pract.Name = "pract";
             this.pract.Size = new System.Drawing.Size(165, 16);
             this.pract.TabIndex = 15;
@@ -164,7 +141,7 @@ namespace ticket_generator
             // diff
             // 
             this.diff.AutoSize = true;
-            this.diff.Location = new System.Drawing.Point(862, 482);
+            this.diff.Location = new System.Drawing.Point(806, 486);
             this.diff.Name = "diff";
             this.diff.Size = new System.Drawing.Size(242, 16);
             this.diff.TabIndex = 16;
@@ -173,7 +150,7 @@ namespace ticket_generator
             // vars
             // 
             this.vars.AutoSize = true;
-            this.vars.Location = new System.Drawing.Point(862, 347);
+            this.vars.Location = new System.Drawing.Point(806, 351);
             this.vars.Name = "vars";
             this.vars.Size = new System.Drawing.Size(79, 16);
             this.vars.TabIndex = 18;
@@ -181,7 +158,7 @@ namespace ticket_generator
             // 
             // variantsText
             // 
-            this.variantsText.Location = new System.Drawing.Point(869, 367);
+            this.variantsText.Location = new System.Drawing.Point(813, 371);
             this.variantsText.Name = "variantsText";
             this.variantsText.Size = new System.Drawing.Size(100, 22);
             this.variantsText.TabIndex = 17;
@@ -191,7 +168,7 @@ namespace ticket_generator
             // 
             this.doubleFileMode.AutoSize = true;
             this.doubleFileMode.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.doubleFileMode.Location = new System.Drawing.Point(869, 15);
+            this.doubleFileMode.Location = new System.Drawing.Point(813, 19);
             this.doubleFileMode.Name = "doubleFileMode";
             this.doubleFileMode.Size = new System.Drawing.Size(241, 20);
             this.doubleFileMode.TabIndex = 19;
@@ -202,7 +179,7 @@ namespace ticket_generator
             // practisQuestions
             // 
             this.practisQuestions.Enabled = false;
-            this.practisQuestions.Location = new System.Drawing.Point(869, 93);
+            this.practisQuestions.Location = new System.Drawing.Point(813, 97);
             this.practisQuestions.Name = "practisQuestions";
             this.practisQuestions.Size = new System.Drawing.Size(234, 45);
             this.practisQuestions.TabIndex = 20;
@@ -215,18 +192,27 @@ namespace ticket_generator
             // 
             this.onlyNumberMode.AutoSize = true;
             this.onlyNumberMode.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.onlyNumberMode.Location = new System.Drawing.Point(865, 246);
+            this.onlyNumberMode.Location = new System.Drawing.Point(809, 250);
             this.onlyNumberMode.Name = "onlyNumberMode";
             this.onlyNumberMode.Size = new System.Drawing.Size(205, 20);
             this.onlyNumberMode.TabIndex = 21;
             this.onlyNumberMode.Text = "Писать только № практики";
             this.onlyNumberMode.UseVisualStyleBackColor = true;
             // 
+            // webBrowser1
+            // 
+            this.webBrowser1.Location = new System.Drawing.Point(2, 4);
+            this.webBrowser1.MinimumSize = new System.Drawing.Size(20, 20);
+            this.webBrowser1.Name = "webBrowser1";
+            this.webBrowser1.Size = new System.Drawing.Size(771, 926);
+            this.webBrowser1.TabIndex = 22;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1106, 591);
+            this.ClientSize = new System.Drawing.Size(1776, 932);
+            this.Controls.Add(this.webBrowser1);
             this.Controls.Add(this.onlyNumberMode);
             this.Controls.Add(this.practisQuestions);
             this.Controls.Add(this.doubleFileMode);
@@ -238,8 +224,6 @@ namespace ticket_generator
             this.Controls.Add(this.teorityText);
             this.Controls.Add(this.practisText);
             this.Controls.Add(this.difficultyText);
-            this.Controls.Add(this.HowTo);
-            this.Controls.Add(this.title);
             this.Controls.Add(this.cumputeLabel);
             this.Controls.Add(this.compute);
             this.Controls.Add(this.output);
@@ -260,8 +244,6 @@ namespace ticket_generator
         private System.Windows.Forms.Button output;
         private System.Windows.Forms.Button compute;
         private System.Windows.Forms.Label cumputeLabel;
-        private System.Windows.Forms.Label title;
-        private System.Windows.Forms.TextBox HowTo;
         private System.Windows.Forms.TextBox difficultyText;
         private System.Windows.Forms.TextBox practisText;
         private System.Windows.Forms.TextBox teorityText;
@@ -273,6 +255,7 @@ namespace ticket_generator
         private System.Windows.Forms.CheckBox doubleFileMode;
         private System.Windows.Forms.Button practisQuestions;
         private System.Windows.Forms.CheckBox onlyNumberMode;
+        private System.Windows.Forms.WebBrowser webBrowser1;
     }
 }
 
