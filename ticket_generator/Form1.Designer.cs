@@ -200,9 +200,9 @@ namespace ticket_generator
             this.onlyNumberMode.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.onlyNumberMode.Location = new System.Drawing.Point(808, 277);
             this.onlyNumberMode.Name = "onlyNumberMode";
-            this.onlyNumberMode.Size = new System.Drawing.Size(205, 20);
+            this.onlyNumberMode.Size = new System.Drawing.Size(256, 20);
             this.onlyNumberMode.TabIndex = 21;
-            this.onlyNumberMode.Text = "Писать только № практики";
+            this.onlyNumberMode.Text = "Указывать только номер практики";
             this.onlyNumberMode.UseVisualStyleBackColor = true;
             // 
             // webBrowser1

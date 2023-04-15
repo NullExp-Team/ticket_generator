@@ -153,28 +153,39 @@ namespace ticket_generator
             int pc = Convert.ToInt32(practisText.Text);
             double df = Convert.ToDouble(difficultyText.Text.Replace('.', ','));
             int vc = Convert.ToInt32(variantsText.Text);
+            if (tc < 0 || pc < 0 || vc < 0) {
+                MessageBox.Show("Параметры должны быть положительными"); return;
+            }
+            int tcFile = tasks.Where((task) => task.type == TaskType.Theory).Count();
+            if (tc > tcFile)
+            {
+                MessageBox.Show("Задано " + tc + " теоритических задач, хотя в файле найдено только " + tcFile + "."); return;
+            }
+            int pcFile = tasks.Where((task) => task.type == TaskType.Practice).Count();
+            if (pc > pcFile)
+            {
+                MessageBox.Show("Задано " + pc + " практических задач, хотя в файле найдено только " + pcFile +"."); return;
+            }
+
             if (df < 1 || df > 5)
             {
-                throw new OverflowException();
+                MessageBox.Show("Сложность должна быть в диапозоне от 1 до 5"); return;
             }
+
+
+
             ExamTest examTest = algorithm.Compute(tasks, tc, pc, df, vc);
 
             Export.ExportExamTest(examTest, outputFilePath, templateFilePath, onlyNumberMode.Checked);
 
             
-          var res =  MessageBox.Show("Выходной файл успешно сгенерирован. \n\nОткрыть файл?", "Успешно", MessageBoxButtons.OKCancel);
+            var res =  MessageBox.Show("Выходной файл успешно сгенерирован. \n\nОткрыть файл?", "Успешно", MessageBoxButtons.OKCancel);
             
 
             if( res == DialogResult.OK)
             {
                 System.Diagnostics.Process.Start("explorer.exe", "/open,\"" + outputFilePath + " \"");
             }
-
-
-
-           
-
-            
         }
 
 
