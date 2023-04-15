@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -121,11 +122,19 @@ namespace ticket_generator
 
                         task++;
                         id++;
-                        answer.Add(new GeneratorsTask(id, difficulty, taskType, new List<Paragraph>()));
-                        answer[task].text.Add(document.Paragraphs[i]);
+
+                        answer.Add(new GeneratorsTask(id, difficulty, taskType, new List<TaskText>()));
+
+                        var par = document.Paragraphs[i];
+                        var images = par.Pictures.ConvertAll((pic) => pic);
+
+                        answer[task].taskTexts.Add(new TaskText(images, par));
                     } else
                     {
-                        answer[task].text.Add(document.Paragraphs[i]);
+                        var par = document.Paragraphs[i];
+                        var images = par.Pictures.ConvertAll((pic) => pic);
+                    
+                        answer[task].taskTexts.Add(new TaskText(images, par));
                     }
                 }
             }

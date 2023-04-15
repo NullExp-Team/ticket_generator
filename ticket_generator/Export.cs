@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Linq;
 using Xceed.Document.NET;
 using Xceed.Words.NET;
 
@@ -12,6 +14,39 @@ namespace ticket_generator
     public class Export
     {
 
+        private static Paragraph pasteParagraph(DocX doc, TaskText taskText)
+        {
+            var images = taskText.pictures;
+            var par = taskText.paragraph;
+
+            if (images.Count == 0) return doc.InsertParagraph(par);
+
+            // Дальше копирование параграфа и добавление в него изображений, т.к. в текущем изображения не работают
+            var newPar = doc.InsertParagraph();
+
+            newPar.Alignment = par.Alignment;
+            newPar.Direction = par.Direction;
+            newPar.IndentationAfter = par.IndentationAfter;
+            newPar.IndentationBefore = par.IndentationBefore;
+            newPar.IndentationFirstLine = par.IndentationFirstLine;
+            newPar.IndentationHanging = par.IndentationHanging;
+
+            par.MagicText.ForEach((magic) =>
+            {
+                newPar.InsertText(magic.text, false, magic.formatting);
+            });
+
+            foreach (var pic in images)
+            {
+                var stream = pic.Stream;
+                var image = doc.AddImage(stream);
+                var newPic = image.CreatePicture(pic.Height, pic.Width);
+                newPar.AppendPicture(newPic);
+            }
+            return newPar;
+
+        }
+
         public static void ExportExamTest(ExamTest test, string outputPath, string templatePath, bool onlyNumberMode)
         {
             var doc = DocX.Create(outputPath);
@@ -19,28 +54,31 @@ namespace ticket_generator
             // Применение контитулов из шаблона
             doc.ApplyTemplate(templatePath);
 
-            var template = DocX.Load (templatePath);
+            var template = DocX.Load(templatePath);
+
 
             var pars = doc.Paragraphs.Cast<Paragraph>().ToList();
 
             // Удаление всех параграфов, которые добавились из шаблона
-            // Мы будем добавлять позже их на каждой итерации для билета
+            // Мы будем добавлять их позже на каждой итерации для билета
 
             foreach (var par in pars)
             {
                 doc.RemoveParagraph(par);
             }
 
-            for (int i = 0; i < test.tickets.Count; i++)
+            for (int ticketIndex = 0; ticketIndex < test.tickets.Count; ticketIndex++)
             {
-                var ticket = test.tickets[i];
+                var ticket = test.tickets[ticketIndex];
+
 
                 // Добавленям параграфы из шаблона, пока не находим тег.
                 int templateParIndex = 0;
                 for (; templateParIndex < template.Paragraphs.Count; templateParIndex++)
                 {
                     var par = template.Paragraphs[templateParIndex];
-                    if (par.FindAll("[[tasks]]").Count > 0) {
+                    if (par.FindAll("[[tasks]]").Count > 0)
+                    {
                         templateParIndex++;
                         break;
                     }
@@ -49,62 +87,57 @@ namespace ticket_generator
 
                 int exsampleTask = 0;
                 string practisNumber = "";
+
                 // Добавление текста задач 
-                for (int task = 0; task < ticket.tasks.Count; task++)
+                for (int taskIndex = 0; taskIndex < ticket.tasks.Count; taskIndex++)
                 {
-                    
-                    if (onlyNumberMode && ticket.tasks[task].type == TaskType.Practice)
+                    var task = ticket.tasks[taskIndex];
+                    if (onlyNumberMode && ticket.tasks[taskIndex].type == TaskType.Practice)
                     {
-                        practisNumber += ticket.tasks[task].id + ", ";
-                        exsampleTask = task;
+                        practisNumber += ticket.tasks[taskIndex].id + ", ";
+                        exsampleTask = taskIndex;
                     }
                     else
                     {
-                        for (int par = 0; par < ticket.tasks[task].text.Count; par++)
+                        for (int parIndex = 0; parIndex < ticket.tasks[taskIndex].taskTexts.Count; parIndex++)
                         {
-
-                            if (ticket.tasks[task].text[par].ParentContainer != ContainerType.Cell)
+                            var taskText = task.taskTexts[parIndex];
+                            var par = task.taskTexts[parIndex].paragraph;
+                            if (par.ParentContainer != ContainerType.Cell)
                             {
-                                try
+
+                                if (parIndex == 0)
                                 {
-                                    if (par == 0)
-                                    {
-                                        string number = (task + 1).ToString() + ". ";
-                                        ticket.tasks[task].text[par].InsertText(0, number);
-                                        doc.InsertParagraph(ticket.tasks[task].text[par]);
-                                        ticket.tasks[task].text[par].RemoveText(0, number.Length);
-                                    }
-                                    else
-                                    {
-                                        doc.InsertParagraph(ticket.tasks[task].text[par]);
-                                    }
-
+                                    string number = (taskIndex + 1).ToString() + ". ";
+                                    par.InsertText(0, number);
+                                    pasteParagraph(doc, taskText);
+                                    par.RemoveText(0, number.Length);
                                 }
-                                catch
+                                else
                                 {
-
+                                    pasteParagraph(doc, taskText);
                                 }
-
                             }
 
                             // Добавление таблиц
-                            if (ticket.tasks[task].text[par].FollowingTables?.Count > 0)
+                            if (par.FollowingTables?.Count > 0)
                             {
-                                var tables = ticket.tasks[task].text[par].FollowingTables;
+                                var tables = par.FollowingTables;
                                 foreach (var table in tables) doc.InsertTable(table);
                             }
                         }
                     }
-                   
+
                 }
 
                 if (onlyNumberMode && practisNumber != "")
                 {
-                    int number = ticket.tasks[exsampleTask].text[0].Text.Length;
+                    var par = ticket.tasks[exsampleTask].taskTexts[0].paragraph;
+                    int number = par.Text.Length;
                     string newText = "Практические задания номер: " + practisNumber.Substring(0, practisNumber.Length - 2);
-                    ticket.tasks[exsampleTask].text[0].InsertText(0, newText);
-                    ticket.tasks[exsampleTask].text[0].RemoveText(newText.Length, number);
-                    doc.InsertParagraph(ticket.tasks[exsampleTask].text[0]);
+                    par.InsertText(0, newText);
+                    par.RemoveText(newText.Length, number);
+                    doc.InsertParagraph(par);
                 }
 
                 // Продолжаем добавлять оставшиеся параграфы из шаблона
@@ -122,11 +155,11 @@ namespace ticket_generator
                 doc.ReplaceText(replaceOps);
 
                 // Разрыв страницы
-                if (i != test.tickets.Count - 1)
+                if (ticketIndex != test.tickets.Count - 1)
                 {
                     doc.InsertParagraph("").InsertPageBreakAfterSelf();
                 }
-                    
+
             }
 
             doc.Save();
