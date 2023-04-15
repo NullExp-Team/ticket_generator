@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using System.Xml.Linq;
 using Xceed.Document.NET;
 using Xceed.Words.NET;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace ticket_generator
 {
@@ -85,17 +86,17 @@ namespace ticket_generator
                     doc.InsertParagraph(par);
                 }
 
-                int exsampleTask = 0;
-                string practisNumber = "";
-
                 // Добавление текста задач 
                 for (int taskIndex = 0; taskIndex < ticket.tasks.Count; taskIndex++)
                 {
                     var task = ticket.tasks[taskIndex];
                     if (onlyNumberMode && ticket.tasks[taskIndex].type == TaskType.Practice)
                     {
-                        practisNumber += ticket.tasks[taskIndex].id + ", ";
-                        exsampleTask = taskIndex;
+                        var par = task.taskTexts[0].paragraph;
+                        string text = (taskIndex + 1) + ". Практическое задание № " + ticket.tasks[taskIndex].id;
+                        par.InsertText(0, text);
+                        par.RemoveText(text.Length);
+                        doc.InsertParagraph(par);
                     }
                     else
                     {
@@ -128,16 +129,6 @@ namespace ticket_generator
                         }
                     }
 
-                }
-
-                if (onlyNumberMode && practisNumber != "")
-                {
-                    var par = ticket.tasks[exsampleTask].taskTexts[0].paragraph;
-                    int number = par.Text.Length;
-                    string newText = "Практические задания номер: " + practisNumber.Substring(0, practisNumber.Length - 2);
-                    par.InsertText(0, newText);
-                    par.RemoveText(newText.Length, number);
-                    doc.InsertParagraph(par);
                 }
 
                 // Продолжаем добавлять оставшиеся параграфы из шаблона

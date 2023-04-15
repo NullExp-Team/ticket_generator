@@ -60,6 +60,7 @@ namespace ticket_generator
         private void practisQuestions_Click(object sender, EventArgs e)
         {
             questionPractisFilePath = Import.ImportDialog();
+            if (questionPractisFilePath != null)
             practiceFileLabel.Text = questionPractisFilePath.Split('\\').Last();
         }
 
@@ -166,7 +167,6 @@ namespace ticket_generator
 
             if( res == DialogResult.OK)
             {
-                System.Diagnostics.Process.Start("explorer.exe", "/select,\"" + outputFilePath + " \"");
                 System.Diagnostics.Process.Start("explorer.exe", "/open,\"" + outputFilePath + " \"");
             }
 
