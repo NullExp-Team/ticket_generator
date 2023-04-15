@@ -64,7 +64,7 @@ namespace ticket_generator
             // 
             // template
             // 
-            this.template.Location = new System.Drawing.Point(805, 217);
+            this.template.Location = new System.Drawing.Point(807, 166);
             this.template.Name = "template";
             this.template.Size = new System.Drawing.Size(232, 45);
             this.template.TabIndex = 2;
@@ -74,7 +74,7 @@ namespace ticket_generator
             // 
             // output
             // 
-            this.output.Location = new System.Drawing.Point(805, 166);
+            this.output.Location = new System.Drawing.Point(804, 217);
             this.output.Name = "output";
             this.output.Size = new System.Drawing.Size(236, 45);
             this.output.TabIndex = 3;
@@ -234,7 +234,7 @@ namespace ticket_generator
             // outputFileLabel
             // 
             this.outputFileLabel.AutoSize = true;
-            this.outputFileLabel.Location = new System.Drawing.Point(1047, 180);
+            this.outputFileLabel.Location = new System.Drawing.Point(1046, 231);
             this.outputFileLabel.Name = "outputFileLabel";
             this.outputFileLabel.Size = new System.Drawing.Size(44, 16);
             this.outputFileLabel.TabIndex = 25;
@@ -243,11 +243,12 @@ namespace ticket_generator
             // templateFileLabel
             // 
             this.templateFileLabel.AutoSize = true;
-            this.templateFileLabel.Location = new System.Drawing.Point(1047, 231);
+            this.templateFileLabel.Location = new System.Drawing.Point(1045, 180);
             this.templateFileLabel.Name = "templateFileLabel";
             this.templateFileLabel.Size = new System.Drawing.Size(44, 16);
             this.templateFileLabel.TabIndex = 26;
             this.templateFileLabel.Text = "label1";
+            this.templateFileLabel.Click += new System.EventHandler(this.templateFileLabel_Click);
             // 
             // Form1
             // 

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -64,9 +65,14 @@ namespace ticket_generator
 
         private void template_Click(object sender, EventArgs e)
         {
-            templateFilePath = Import.ImportDialog();
-            if (templateFilePath != null)
-            templateFileLabel.Text = templateFilePath.Split('\\').Last();
+            var res = Import.ImportDialog();
+            if (res != null)
+            {
+                templateFilePath = res;
+
+                templateFileLabel.Text = templateFilePath.Split('\\').Last();
+            }
+               
         }
 
         private void output_Click(object sender, EventArgs e)
@@ -78,29 +84,58 @@ namespace ticket_generator
 
         private void compute_Click(object sender, EventArgs e)
         {
+            string questionFileName = "";
+            if (doubleFileMode.Checked)
+            {
+                questionFileName = "Файл с теорией";
+            }
+            else
+            {
+                questionFileName = "Файл с вопросами";
+            }
+
             if (string.IsNullOrEmpty(questionFilePath))
             {
-                if (doubleFileMode.Checked)
-                {
-                    MessageBox.Show("Файл с теорией не задан");
-                } else
-                {
-                    MessageBox.Show("Файл с вопросами не задан");
-                }
-                return;
+                MessageBox.Show(questionFileName + " не задан"); return;
             }
 
             if (string.IsNullOrEmpty(templateFilePath))
             {
-                MessageBox.Show("Шаблон не задан");
-                return;
+                MessageBox.Show("Файл с шаблоном не задан"); return;
             }
 
             if (string.IsNullOrEmpty(outputFilePath))
             {
-                MessageBox.Show("Выходной файл не задан");
-                return;
+                MessageBox.Show("Выходной файл не задан"); return;
             }
+
+            try
+            {
+               File.OpenRead(questionFilePath).Close();
+            } catch
+            {
+                MessageBox.Show("Нет доступа к " + questionFilePath + ". \n\nПроверьте, что " + questionFileName.ToLower() + " закрыт."); return;
+            }
+
+            try
+            {
+                File.OpenRead(templateFilePath).Close();
+            }
+            catch
+            {
+                MessageBox.Show("Нет доступа к " + templateFilePath + ". \n\nПроверьте, что файл с шаблоном закрыт."); return;
+            }
+
+            try
+            {
+                File.OpenRead(outputFilePath).Close();
+            }
+            catch
+            {
+                MessageBox.Show("Нет доступа к " + outputFilePath + ". \n\nПроверьте, что выходной файл закрыт."); return;
+            }
+
+
 
             var algorithm = new Algorithm();
 
@@ -125,29 +160,25 @@ namespace ticket_generator
 
             Export.ExportExamTest(examTest, outputFilePath, templateFilePath, onlyNumberMode.Checked);
 
-            MessageBox.Show("Билеты успешно сгенерированы"); return;
+            
+          var res =  MessageBox.Show("Выходной файл успешно сгенерирован. \n\nОткрыть файл?", "Успешно", MessageBoxButtons.OKCancel);
+            
+
+            if( res == DialogResult.OK)
+            {
+                System.Diagnostics.Process.Start("explorer.exe", "/select,\"" + outputFilePath + " \"");
+                System.Diagnostics.Process.Start("explorer.exe", "/open,\"" + outputFilePath + " \"");
+            }
+
+
 
            
 
             
         }
 
-        private void questionsLabel_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void outputLabel_Click(object sender, EventArgs e)
-        {
-
-        }
 
         private void Form1_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void HowTo_TextChanged(object sender, EventArgs e)
         {
 
         }
@@ -158,6 +189,11 @@ namespace ticket_generator
         }
 
         private void vars_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void templateFileLabel_Click(object sender, EventArgs e)
         {
 
         }
