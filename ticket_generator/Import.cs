@@ -81,7 +81,7 @@ namespace ticket_generator
             {
                 
                 //перед началом списка с теоретическими или практическими вопросами должен идти жирный заголовок
-                if (document.Paragraphs[i].MagicText.Count >= 1 && document.Paragraphs[i].MagicText[0].formatting.Bold == true)
+                if (document.Paragraphs[i].MagicText.Count >= 1 && document.Paragraphs[i].MagicText[0].formatting?.Bold == true)
                 {
                     taskType = taskType == TaskType.Practice ? TaskType.Theory : TaskType.Practice;
                     id = 0;
