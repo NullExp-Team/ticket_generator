@@ -39,6 +39,12 @@ namespace ticket_generator
                     ? 0
                     : -1;
         }
+        
+        override
+        public string ToString()
+        {
+            return id.ToString() + type.ToString();
+        }
     }
 
     public class TaskText

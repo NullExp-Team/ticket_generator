@@ -79,7 +79,9 @@ namespace ticket_generator
                 variants.Add(new List<GeneratorsTask>());
             }
 
-            int savePoint = 1;
+            int savePoint = 0;
+            HashSet<string> unicVars = new HashSet<string>();
+            bool tryToUnic = true;
             for (int i = 0; i < variantsCount; i++)
             {
                 int lastTaskCount = 0;
@@ -93,14 +95,13 @@ namespace ticket_generator
                     for (int j = 0; j < types[k].count; j++)
                     {
                         int indexOfTask;
-                        if (j == 0 && types[k].shift > 0)
+                        if (j < types[k].shift)
                         {
                             indexOfTask = new Random(DateTime.Now.Millisecond % 100 + i).Next(types[k].tree.Count);
                         }
                         else
                         {
                             double median = Convert.ToDouble(needDifficulty - nowDifficulty) / lastTaskCount;
-
 
                             indexOfTask = types[k].tree.BinarySearch(new TypeVariablesNode(-1, median));
                             if (indexOfTask < 0)
@@ -122,12 +123,11 @@ namespace ticket_generator
                         if (types[k].tree.Count == 0)
                         {
                             types[k].rebuildTree();
-                            types[k].shift++;
                         }
                     }
                 }
 
-                if (Math.Abs(nowDifficulty - needDifficulty) >= 2 && i > savePoint)
+                if (Convert.ToDouble(Math.Abs(nowDifficulty - needDifficulty)/ (teorityCount + practisCount)) >= 1 && i > savePoint)
                 {
                     for (int k = 0; k < types.Count; k++)
                     {
@@ -136,6 +136,26 @@ namespace ticket_generator
                     variants[i].Clear();
                     savePoint++;
                     i--;
+                } else if (tryToUnic)
+                {
+                    variants[i].Sort();
+                    string tmp = "";
+                    foreach (var x in variants[i])
+                    {
+                        tmp += x.ToString() + "|";
+                    }
+                    if (unicVars.Contains(tmp))
+                    {
+                        tryToUnic = false;
+                        variants[i].Clear();
+                        i--;
+                    } else
+                    {
+                        unicVars.Add(tmp);
+                    }
+                } else
+                {
+                    tryToUnic = true;
                 }
             }
 
@@ -149,21 +169,8 @@ namespace ticket_generator
                 Console.WriteLine(tmp - needDifficulty);
             }
 
-            HashSet<string> setic = new HashSet<string>();
-            for (int i = 0; i < variants.Count; i++)
-            {
-                variants[i].Sort();
-
-                string tmp = "";
-                foreach (var x in variants[i])
-                {
-                    tmp += x.id.ToString() + "|";
-                }
-
-                setic.Add(tmp);
-            }
             Console.WriteLine("");
-            Console.WriteLine(setic.Count);
+            Console.WriteLine(unicVars.Count);
 
             ExamTest examTest = new ExamTest("❤️lovemaker❤️", new List<Ticket>());
 
