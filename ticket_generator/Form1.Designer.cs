@@ -29,6 +29,7 @@ namespace ticket_generator
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.questions = new System.Windows.Forms.Button();
             this.template = new System.Windows.Forms.Button();
             this.output = new System.Windows.Forms.Button();
@@ -97,7 +98,7 @@ namespace ticket_generator
             this.cumputeLabel.AutoSize = true;
             this.cumputeLabel.Location = new System.Drawing.Point(802, 517);
             this.cumputeLabel.Name = "cumputeLabel";
-            this.cumputeLabel.Size = new System.Drawing.Size(0, 17);
+            this.cumputeLabel.Size = new System.Drawing.Size(0, 16);
             this.cumputeLabel.TabIndex = 7;
             // 
             // difficultyText
@@ -129,7 +130,7 @@ namespace ticket_generator
             this.teor.AutoSize = true;
             this.teor.Location = new System.Drawing.Point(805, 414);
             this.teor.Name = "teor";
-            this.teor.Size = new System.Drawing.Size(173, 17);
+            this.teor.Size = new System.Drawing.Size(173, 16);
             this.teor.TabIndex = 14;
             this.teor.Text = "Теоретических вопросов";
             // 
@@ -138,7 +139,7 @@ namespace ticket_generator
             this.pract.AutoSize = true;
             this.pract.Location = new System.Drawing.Point(805, 472);
             this.pract.Name = "pract";
-            this.pract.Size = new System.Drawing.Size(165, 17);
+            this.pract.Size = new System.Drawing.Size(165, 16);
             this.pract.TabIndex = 15;
             this.pract.Text = "Практических вопросов";
             // 
@@ -147,7 +148,7 @@ namespace ticket_generator
             this.diff.AutoSize = true;
             this.diff.Location = new System.Drawing.Point(805, 529);
             this.diff.Name = "diff";
-            this.diff.Size = new System.Drawing.Size(189, 17);
+            this.diff.Size = new System.Drawing.Size(184, 16);
             this.diff.TabIndex = 16;
             this.diff.Text = "Средняя сложность билета";
             // 
@@ -156,7 +157,7 @@ namespace ticket_generator
             this.vars.AutoSize = true;
             this.vars.Location = new System.Drawing.Point(805, 355);
             this.vars.Name = "vars";
-            this.vars.Size = new System.Drawing.Size(79, 17);
+            this.vars.Size = new System.Drawing.Size(79, 16);
             this.vars.TabIndex = 18;
             this.vars.Text = "Вариантов";
             this.vars.Click += new System.EventHandler(this.vars_Click);
@@ -176,7 +177,7 @@ namespace ticket_generator
             this.doubleFileMode.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.doubleFileMode.Location = new System.Drawing.Point(804, 38);
             this.doubleFileMode.Name = "doubleFileMode";
-            this.doubleFileMode.Size = new System.Drawing.Size(242, 20);
+            this.doubleFileMode.Size = new System.Drawing.Size(241, 20);
             this.doubleFileMode.TabIndex = 19;
             this.doubleFileMode.Text = "Разделённая теория и практика";
             this.doubleFileMode.UseVisualStyleBackColor = true;
@@ -200,7 +201,7 @@ namespace ticket_generator
             this.onlyNumberMode.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.onlyNumberMode.Location = new System.Drawing.Point(804, 268);
             this.onlyNumberMode.Name = "onlyNumberMode";
-            this.onlyNumberMode.Size = new System.Drawing.Size(257, 20);
+            this.onlyNumberMode.Size = new System.Drawing.Size(256, 20);
             this.onlyNumberMode.TabIndex = 21;
             this.onlyNumberMode.Text = "Указывать только номер практики";
             this.onlyNumberMode.UseVisualStyleBackColor = true;
@@ -218,7 +219,7 @@ namespace ticket_generator
             this.theoryFileLabel.AutoSize = true;
             this.theoryFileLabel.Location = new System.Drawing.Point(1042, 78);
             this.theoryFileLabel.Name = "theoryFileLabel";
-            this.theoryFileLabel.Size = new System.Drawing.Size(46, 17);
+            this.theoryFileLabel.Size = new System.Drawing.Size(44, 16);
             this.theoryFileLabel.TabIndex = 23;
             this.theoryFileLabel.Text = "label1";
             // 
@@ -227,7 +228,7 @@ namespace ticket_generator
             this.practiceFileLabel.AutoSize = true;
             this.practiceFileLabel.Location = new System.Drawing.Point(1042, 129);
             this.practiceFileLabel.Name = "practiceFileLabel";
-            this.practiceFileLabel.Size = new System.Drawing.Size(46, 17);
+            this.practiceFileLabel.Size = new System.Drawing.Size(44, 16);
             this.practiceFileLabel.TabIndex = 24;
             this.practiceFileLabel.Text = "label1";
             // 
@@ -236,7 +237,7 @@ namespace ticket_generator
             this.outputFileLabel.AutoSize = true;
             this.outputFileLabel.Location = new System.Drawing.Point(1042, 231);
             this.outputFileLabel.Name = "outputFileLabel";
-            this.outputFileLabel.Size = new System.Drawing.Size(46, 17);
+            this.outputFileLabel.Size = new System.Drawing.Size(44, 16);
             this.outputFileLabel.TabIndex = 25;
             this.outputFileLabel.Text = "label1";
             // 
@@ -245,7 +246,7 @@ namespace ticket_generator
             this.templateFileLabel.AutoSize = true;
             this.templateFileLabel.Location = new System.Drawing.Point(1042, 180);
             this.templateFileLabel.Name = "templateFileLabel";
-            this.templateFileLabel.Size = new System.Drawing.Size(46, 17);
+            this.templateFileLabel.Size = new System.Drawing.Size(44, 16);
             this.templateFileLabel.TabIndex = 26;
             this.templateFileLabel.Text = "label1";
             this.templateFileLabel.Click += new System.EventHandler(this.templateFileLabel_Click);
@@ -276,6 +277,7 @@ namespace ticket_generator
             this.Controls.Add(this.output);
             this.Controls.Add(this.template);
             this.Controls.Add(this.questions);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
             this.Text = "Ticket Generator";
             this.Load += new System.EventHandler(this.Form1_Load);
