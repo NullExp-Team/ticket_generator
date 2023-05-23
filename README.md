@@ -6,6 +6,11 @@
 ![image](https://github.com/NullExp-Team/ticket_generator/assets/34741787/0b85d0d9-c4e4-4154-8248-302d0bb6230b)
 
 3) Запустить файл ticket_generator.sln
+4) Установить зависимости в окно по этому пути 
+![image](https://github.com/NullExp-Team/ticket_generator/assets/34741787/2491f9fc-8a1f-4de3-a5e6-66baf43fb54d)
+Зависимости:
+![image](https://github.com/NullExp-Team/ticket_generator/assets/34741787/87aa0174-78aa-4bf3-968d-d861af182115)
+
 4) Дальше можно работать с проектом
 
 
