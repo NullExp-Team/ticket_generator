@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.TrackBar;
+using Microsoft.WindowsAPICodePack.Dialogs;
 
 namespace ticket_generator
 {
@@ -86,10 +87,11 @@ namespace ticket_generator
 
         private void output_Click(object sender, EventArgs e)
         {
-            var res = Import.ImportDialog();
-            if (res != null)
+            CommonOpenFileDialog dialog = new CommonOpenFileDialog();
+            dialog.IsFolderPicker = true;
+            if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
             {
-                outputFilePath = res;
+                outputFilePath = dialog.FileName;
                 outputFileLabel.Text = outputFilePath.Split('\\').Last();
             }
         }
@@ -118,7 +120,7 @@ namespace ticket_generator
 
             if (string.IsNullOrEmpty(outputFilePath))
             {
-                MessageBox.Show("Выходной файл не задан"); return;
+                MessageBox.Show("Выходная папка не задана"); return;
             }
 
             try
@@ -162,7 +164,7 @@ namespace ticket_generator
 
             catch (Exception ex)
             {
-                MessageBox.Show("Нет доступа к " + outputFilePath + ". \n\nПроверьте, что выходной файл закрыт. \n\n Полное описание ошибки: \n\n" + ex); return;
+                MessageBox.Show("Нет доступа к " + outputFilePath + ". \n\nПроверьте, что выходная папка существует. \n\n Полное описание ошибки: \n\n" + ex); return;
             }
 
 
@@ -206,8 +208,8 @@ namespace ticket_generator
 
 
             ExamTest examTest = algorithm.Compute(tasks, tc, pc, df, vc);
-
-            Export.ExportExamTest(examTest, outputFilePath, templateFilePath, onlyNumberMode.Checked);
+            var realOutputFilePath = outputFilePath + "\\tickets_" + templateFilePath.Split('\\').Last();
+            Export.ExportExamTest(examTest, realOutputFilePath, templateFilePath, onlyNumberMode.Checked);
 
 
             var res = MessageBox.Show("Выходной файл успешно сгенерирован. \n\nОткрыть файл?", "Успешно", MessageBoxButtons.OKCancel);
@@ -215,7 +217,7 @@ namespace ticket_generator
 
             if (res == DialogResult.OK)
             {
-                System.Diagnostics.Process.Start("explorer.exe", "/open,\"" + outputFilePath + " \"");
+                System.Diagnostics.Process.Start("explorer.exe", "/open,\"" + realOutputFilePath + " \"");
             }
         }
 
