@@ -22,6 +22,7 @@ namespace ticket_generator
         string templateFilePath = "template.docx";
         string outputFilePath;
 
+
         public Form1()
         {
             InitializeComponent();
@@ -209,7 +210,7 @@ namespace ticket_generator
 
             ExamTest examTest = algorithm.Compute(tasks, tc, pc, df, vc);
             var realOutputFilePath = outputFilePath + "\\tickets_" + templateFilePath.Split('\\').Last();
-            Export.ExportExamTest(examTest, realOutputFilePath, templateFilePath, onlyNumberMode.Checked);
+            Export.ExportExamTest(examTest, realOutputFilePath, templateFilePath, onlyNumberMode.Checked, twoTicketOnPage.Checked);
 
 
             var res = MessageBox.Show("Выходной файл успешно сгенерирован. \n\nОткрыть файл?", "Успешно", MessageBoxButtons.OKCancel);

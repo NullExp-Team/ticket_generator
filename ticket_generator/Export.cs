@@ -48,7 +48,7 @@ namespace ticket_generator
 
         }
 
-        public static void ExportExamTest(ExamTest test, string outputPath, string templatePath, bool onlyNumberMode)
+        public static void ExportExamTest(ExamTest test, string outputPath, string templatePath, bool onlyNumberMode, bool twoTicketOnPage)
         {
             var doc = DocX.Create(outputPath);
 
@@ -148,7 +148,13 @@ namespace ticket_generator
                 // Разрыв страницы
                 if (ticketIndex != test.tickets.Count - 1)
                 {
-                    doc.InsertParagraph("").InsertPageBreakAfterSelf();
+                    if (!twoTicketOnPage || ticketIndex % 2 == 1)
+                    {
+                        doc.InsertParagraph("").InsertPageBreakAfterSelf();
+                    } else
+                    {
+                        doc.InsertParagraph("");
+                    }
                 }
 
             }
